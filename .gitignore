@@ -1,0 +1,12 @@
+# Logs
+*.log
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
+
+# Documentacao local de explicacao
+explicacao_app.md
+explicacao_styles.md
+explicacao_html.md

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVP Lançamento Financeiro</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div class="ambient ambient-a"></div>
+    <div class="ambient ambient-b"></div>
+
+    <section id="app-screen" class="app-screen">
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-head">
+                <div class="brand">
+                    <p class="tag">PAINEL</p>
+                    <h2>Lancamento Financeiro</h2>
+                </div>
+            </div>
+
+            <nav class="menu">
+                <button class="menu-btn active" data-view="lancamentos">
+                    <strong>Lancamentos</strong>
+                    <span>Movimentacoes do periodo e manutencao.</span>
+                </button>
+                <button class="menu-btn" data-view="relatorios">
+                    <strong>Relatorios</strong>
+                    <span>Consultas, saldos e visoes consolidadas.</span>
+                </button>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <header class="hero panel">
+                <div class="hero-copy">
+                    <p class="eyebrow">Dashboard Lançamento Financeiro</p>
+                    <p id="session-info">Conectado</p>
+                </div>
+                <div class="topbar-tools">
+                    <label class="base-url-label">API Base URL
+                        <input id="base-url" type="text" value="http://127.0.0.1:5002" />
+                    </label>
+                </div>
+            </header>
+
+            <section id="lancamentos-dashboard" class="dashboard-shell">
+                <section class="summary-grid">
+                    <article class="metric-card metric-balance">
+                        <span>Saldo</span>
+                        <strong id="metric-saldo">R$ 0,00</strong>
+                        <small id="metric-total-count">0 lancamentos no periodo</small>
+                    </article>
+                    <article class="metric-card metric-income">
+                        <span>Receitas</span>
+                        <strong id="metric-receitas">R$ 0,00</strong>
+                        <small id="metric-receitas-count">0 receitas</small>
+                    </article>
+                    <article class="metric-card metric-expense">
+                        <span>Despesas</span>
+                        <strong id="metric-despesas">R$ 0,00</strong>
+                        <small id="metric-despesas-count">0 despesas</small>
+                    </article>
+                </section>
+
+            </section>
+
+            <section id="view-lancamentos" class="view active">
+                <div class="module-grid">
+                    <div class="panel form-panel">
+                        <div class="panel-heading">
+                            <div>
+                                <p class="eyebrow">Cadastro</p>
+                                <h3>Novo Lancamento</h3>
+                            </div>
+                            <span id="lan-selection-status" class="selection-status">Modo inclusao</span>
+                        </div>
+                        <div class="grid grid-2">
+                            <label>ID (alterar/excluir)
+                                <input id="lan-id" type="number" readonly />
+                            </label>
+                            <label>Tipo
+                                <select id="lan-tipo_lancamento">
+                                    <option>Despesa</option>
+                                    <option>Receita</option>
+                                </select>
+                            </label>
+                            <label>Descricao
+                                <input id="lan-descricao" type="text" />
+                            </label>
+                            <label>Valor
+                                <input id="lan-valor" type="text" inputmode="decimal" placeholder="0,00" />
+                            </label>
+                            <label>Situacao
+                                <select id="lan-situacao">
+                                    <option>pendente</option>
+                                    <option>pago</option>
+                                </select>
+                            </label>
+                            <label>Data Lancamento
+                                <input id="lan-data-lanc" type="date" />
+                            </label>
+                            <label>Data Pagamento
+                                <input id="lan-data-pag" type="date" />
+                            </label>
+                        </div>
+                        <div class="actions">
+                            <button id="lan-create" class="btn btn-primary">Criar</button>
+                            <button id="lan-update" class="btn" disabled>Alterar</button>
+                            <button id="lan-delete" class="btn btn-danger" disabled>Excluir</button>
+                            <button id="lan-clear" class="btn btn-neutral">Novo</button>
+                            <button id="lan-list" class="btn btn-secondary">Atualizar Lista</button>
+                        </div>
+                    </div>
+
+                    <div class="panel list-panel">
+                        <div class="panel-heading period-heading">
+                            <div>
+                                <p class="eyebrow">Apresentacao</p>
+                                <h3>Lancamentos Cadastrados</h3>
+                            </div>
+                            <div class="mini-period-grid">
+                                <label>Data Inicial
+                                    <input id="lan-list-data-inicial" type="date" value="2026-03-01" />
+                                </label>
+                                <label>Data Final
+                                    <input id="lan-list-data-final" type="date" value="2026-03-31" />
+                                </label>
+                            </div>
+                        </div>
+                        <div class="list-tools">
+                            <label>Buscar por descricao
+                                <input id="lan-search" type="text" placeholder="Ex.: aluguel, salario..." />
+                            </label>
+                            <div class="quick-filters" id="lan-status-filters">
+                                <button class="filter-chip active" type="button" data-status="todos">Todos</button>
+                                <button class="filter-chip" type="button" data-status="pago">Pago</button>
+                                <button class="filter-chip" type="button" data-status="pendente">Pendente</button>
+                            </div>
+                            <p id="lan-results-info" class="results-info">Mostrando todos os lancamentos do periodo.</p>
+                        </div>
+                        <div class="table-shell">
+                            <div class="table-head table-row lancamento-grid">
+                                <button class="sort-head" type="button" data-sort-key="id" data-sort-label="ID">ID</button>
+                                <button class="sort-head" type="button" data-sort-key="descricao" data-sort-label="Descricao">Descricao</button>
+                                <button class="sort-head" type="button" data-sort-key="tipo" data-sort-label="Tipo">Tipo</button>
+                                <button class="sort-head" type="button" data-sort-key="valor" data-sort-label="Valor">Valor</button>
+                                <button class="sort-head active" type="button" data-sort-key="data" data-sort-label="Data">Data</button>
+                                <button class="sort-head" type="button" data-sort-key="situacao" data-sort-label="Situacao">Situacao</button>
+                            </div>
+                            <div id="lan-list-cards" class="table-body"></div>
+                        </div>
+                        <div class="pager">
+                            <button id="lan-prev" class="btn btn-neutral">Anterior</button>
+                            <span id="lan-page-info"></span>
+                            <button id="lan-next" class="btn btn-neutral">Proxima</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="view-relatorios" class="view">
+                <div class="module-grid reports-grid">
+                    <div class="panel form-panel no-print">
+                        <div class="panel-heading">
+                            <div>
+                                <p class="eyebrow">Consultas</p>
+                                <h3>Relatorios</h3>
+                            </div>
+                        </div>
+                        <div class="grid grid-3">
+                            <label>Data Inicial
+                                <input id="rep-data-inicial" type="date" value="2026-03-01" />
+                            </label>
+                            <label>Data Final
+                                <input id="rep-data-final" type="date" value="2026-03-31" />
+                            </label>
+                            <label>Tipo
+                                <select id="rep-tipo">
+                                    <option>Despesa</option>
+                                    <option>Receita</option>
+                                </select>
+                            </label>
+                            <label>Lancamento ID
+                                <input id="rep-lanc-id" type="number" />
+                            </label>
+                        </div>
+                        <div class="actions">
+                            <button id="rep-lanc-list" class="btn btn-primary">Lancamentos (Periodo)</button>
+                            <button id="rep-tipo-btn" class="btn btn-secondary">Por Tipo</button>
+                            <button id="rep-lanc-id-btn" class="btn btn-secondary">Buscar por ID</button>
+                            <button id="rep-saldos" class="btn btn-secondary">Saldos</button>
+                        </div>
+                    </div>
+
+                    <div class="panel report-panel">
+                        <div class="report-toolbar no-print">
+                            <p id="app-feedback" class="feedback">Pronto.</p>
+                            <button id="report-print" class="btn btn-primary" type="button">Imprimir Relatorio</button>
+                        </div>
+                        <section id="report-sheet" class="report-sheet">
+                            <header class="report-header">
+                                <div>
+                                    <p class="eyebrow">Relatorio Financeiro</p>
+                                    <h3 id="report-title">Relatorio nao gerado</h3>
+                                    <p id="report-subtitle">Use os filtros ao lado para gerar o relatorio.</p>
+                                </div>
+                                <div class="report-meta-right">
+                                    <span id="report-generated-at">-</span>
+                                </div>
+                            </header>
+
+                            <div id="report-summary" class="report-summary"></div>
+
+                            <div class="report-table-wrap">
+                                <table class="report-table">
+                                    <thead>
+                                        <tr id="report-table-head"></tr>
+                                    </thead>
+                                    <tbody id="report-table-body">
+                                        <tr>
+                                            <td>Nenhum relatorio gerado.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+    </section>
+    <script src="app.js"></script>
+</body>
+
+</html>
