@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "start": "python3 -m http.server 5500",
-    "dev": "python3 -m http.server 5500"
+    "dev": "python3 -m http.server 5500",
+    "start:python": "python -m http.server 5500",
+    "dev:python": "python -m http.server 5500"
   }
 }

@@ -26,7 +26,7 @@ Importante: o frontend nao usa ambiente virtual `venv`. O `venv` e utilizado ape
 - CSS3
 - JavaScript puro
 - Node.js apenas para executar o script `npm start`
-- Python 3 para servir os arquivos estaticos localmente
+- Python 3 ou Python para servir os arquivos estaticos localmente
 
 ## Estrutura do Projeto
 
@@ -42,7 +42,7 @@ Importante: o frontend nao usa ambiente virtual `venv`. O `venv` e utilizado ape
 Antes de executar o frontend, tenha instalado:
 
 - Node.js e npm
-- Python 3
+- Python 3 ou Python
 
 ## 2. Clonar o repositório
 ```bash
@@ -75,6 +75,8 @@ O projeto ja possui os scripts:
 
 - `npm start`
 - `npm run dev`
+- `npm run start:python`
+- `npm run dev:python`
 
 Como este frontend nao usa dependencias externas de build, normalmente nao e necessario executar `npm install`.
 
@@ -92,6 +94,18 @@ ou
 
 ```bash
 npm run dev
+```
+
+Se o comando com `python3` nao funcionar no seu ambiente, use uma das opcoes abaixo:
+
+```bash
+npm run start:python
+```
+
+ou
+
+```bash
+npm run dev:python
 ```
 
 Isso iniciara um servidor local simples em:
@@ -127,7 +141,8 @@ npm start
 Observacao:
 
 - o frontend nao precisa de `venv`
-- o comando `npm start` apenas sobe um servidor estatico local com Python 3
+- o comando `npm start` sobe um servidor estatico local com Python 3
+- se `python3` nao estiver disponivel, use `npm run start:python` ou `npm run dev:python`
 
 Depois abra no navegador:
 
@@ -174,6 +189,18 @@ python3 -m http.server 5500
 ### `npm run dev`
 
 Executa o mesmo servidor local, mantendo a opcao de um nome mais comum para desenvolvimento.
+
+### `npm run start:python`
+
+Inicia um servidor HTTP local usando o comando `python`:
+
+```bash
+python -m http.server 5500
+```
+
+### `npm run dev:python`
+
+Executa o mesmo servidor local com o comando `python`, como alternativa para desenvolvimento.
 
 ## Observacoes
 
